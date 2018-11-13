@@ -31,15 +31,17 @@ namespace MoviesCup.Api
                 });
             });
 
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => { builder.AllowAnyOrigin(); }));
             services.AddMvc();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseSwagger()
                 .UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CopaFilmes"); });
 
+            app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
     }
