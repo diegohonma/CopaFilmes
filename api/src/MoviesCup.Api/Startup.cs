@@ -31,7 +31,12 @@ namespace MoviesCup.Api
                 });
             });
 
-            services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => { builder.AllowAnyOrigin(); }));
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder =>
+            {
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();
+            }));
             services.AddMvc();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
