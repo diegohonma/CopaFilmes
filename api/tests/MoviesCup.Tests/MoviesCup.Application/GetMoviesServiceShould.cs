@@ -53,7 +53,7 @@ namespace MoviesCup.Tests.MoviesCup.Application
                 .Returns(movies);
 
             var response = (await _getMoviesService.GetMovies().ConfigureAwait(false)).ToList();
-            var responseMovie = response?.FirstOrDefault();
+            var responseMovie = response.FirstOrDefault();
 
             Assert.Multiple(() =>
             {
@@ -62,6 +62,7 @@ namespace MoviesCup.Tests.MoviesCup.Application
                 Assert.AreEqual(movies.Count, response.Count);
                 Assert.AreEqual(expectedMovie.Id, responseMovie.Id);
                 Assert.AreEqual(expectedMovie.Title, responseMovie.Title);
+                Assert.AreEqual(expectedMovie.Year, responseMovie.Year);
 
                 _movieRepository.Received(1).GetAll();
             });

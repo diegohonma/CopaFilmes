@@ -33,10 +33,10 @@ namespace MoviesCup.Tests.MoviesCup.Application
                 .GetAll()
                 .ReturnsNull();
 
-            var response = await 
+            var response = await
                 _createChampionshipService.CreateChampionship(new List<MovieModel>()
                 {
-                    new MovieModel("t1", "T")
+                    new MovieModel("t1", "T", 2018)
                 }).ConfigureAwait(false);
 
             Assert.Multiple(() =>
@@ -47,8 +47,34 @@ namespace MoviesCup.Tests.MoviesCup.Application
         }
 
         [Test]
-        public async Task ReturnNullWheNoMoviesSent()
+        public async Task ReturnNullWhenNoMoviesSent()
             => Assert.IsNull(await _createChampionshipService.CreateChampionship(null).ConfigureAwait(false));
+
+        [Test]
+        public async Task ReturnClassificationNullWhenNoRoundFound()
+        {
+            var movies = new List<Movie>
+            {
+                new Movie("t1", "Filme 1", 2018, 8.2M),
+                new Movie("t2", "Filme 2", 2018, 7.9M)
+            };
+
+            _movieRepository
+                .GetAll()
+                .Returns(movies);
+
+            _createClassificationService
+                .CreateClassification(Arg.Any<List<Movie>>())
+                .ReturnsNull();
+
+            var response = await _createChampionshipService.CreateChampionship(new List<MovieModel>()).ConfigureAwait(false);
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotNull(response);
+                Assert.IsNull(response.Classification);
+            });
+        }
 
         [Test]
         public async Task ReturnChampionship()

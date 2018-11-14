@@ -36,7 +36,8 @@ namespace MoviesCup.Application
                 ? null
                 : new ChampionshipModel(
                     _createClassificationService
-                        .CreateClassification(movies.ToList())?.Select(m => new ChampionshipPositionModel(m.Position, new MovieModel(m.Movie.Id, m.Movie.Title))));
+                        .CreateClassification(movies.ToList())?.Select(
+                            m => new ChampionshipPositionModel(m.Position, new MovieModel(m.Movie.Id, m.Movie.Title, m.Movie.Year))));
         }
     }
 }

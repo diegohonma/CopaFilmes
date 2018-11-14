@@ -17,6 +17,6 @@ namespace MoviesCup.Application
         }
 
         public async Task<IEnumerable<MovieModel>> GetMovies() =>
-            (await _movieRepository.GetAll().ConfigureAwait(false))?.Select(m => new MovieModel(m.Id, m.Title));
+            (await _movieRepository.GetAll().ConfigureAwait(false))?.Select(m => new MovieModel(m.Id, m.Title, m.Year));
     }
 }
