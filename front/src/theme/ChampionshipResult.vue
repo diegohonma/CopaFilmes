@@ -7,11 +7,11 @@
     </movies-header>
     <div class="column is-full">
       <div class='container is-fluid'>
-        <div class='columns is-vcentered' v-for='result in results' v-bind:key='result.position'>
+        <div class='columns results' v-for='result in results' v-bind:key='result.position'>
           <div class='column is-1 position'>
-            <p>{{result.position}}</p>
+            <p>{{result.position}}º</p>
           </div>
-          <div class='column is-11 movie'>
+          <div class='column is-11 is-vcentered movie'>
             <p>{{result.title}}</p>
           </div>
         </div>
@@ -34,14 +34,21 @@
 </script>
 <style scoped lang='scss'>
   @import '~bulma';
-
-  .position, .movie{
-    margin-bottom: 10px;
-  }
   .position{
-    background-color: $grey
+    background-color: $grey;
+    color: white;
+    font-size: 30px;
+    width: 60px!important;
+    text-align: center;
+    display: flex;
+    align-items: center;
   }
-  .movie{
-    background-color: $white-ter
+  .movie {
+    background-color: $white-ter;
+    display: flex;
+    align-items: center;
+  }
+  .results {
+    margin-bottom: 30px!important;
   }
 </style>
