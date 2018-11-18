@@ -1,10 +1,15 @@
 {
-  "name": "vue-spa",
+  "name": "copa-filmes",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node server",
-    "test": "karma start test/unit/karma.config.js --single-run"
+    "start": "concurrently --kill-others-on-fail \"npm run start-front\" \"npm run start-api\"",
+    "postinstall": "cd api && dotnet restore",
+    "test": "concurrently --kill-others-on-fail \"npm run test-front\" \"npm run test-api\"",
+    "start-front": "cd front && node server",
+    "start-api": "cd api\\src\\MoviesCup.Api && dotnet run",
+    "test-front":"cd front && karma start test/unit/karma.config.js --single-run",
+    "test-api":"cd api\\tests\\MoviesCup.Tests && dotnet test"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +30,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.1.2",
+    "concurrently": "^4.0.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.5",
     "eslint": "^4.5.0",
