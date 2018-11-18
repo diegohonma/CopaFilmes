@@ -2,6 +2,7 @@
 using MoviesCup.Application.Interfaces;
 using MoviesCup.Application.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -20,14 +21,14 @@ namespace MoviesCup.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<MovieModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<IEnumerable<MovieModel>>> Get()
         {
             var response = await _getMoviesService.GetMovies().ConfigureAwait(false);
 
-            if (response == null)
-                return BadRequest("Não foi possível localizar os filmes.");
+            if (response == null || !response.Any())
+                return NoContent();
 
             return Ok(response);
         }

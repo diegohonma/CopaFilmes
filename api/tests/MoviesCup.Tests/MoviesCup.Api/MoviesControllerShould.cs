@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using MoviesCup.Api.Controllers;
 using MoviesCup.Application.Interfaces;
 using MoviesCup.Application.Models;
@@ -26,8 +27,6 @@ namespace MoviesCup.Tests.MoviesCup.Api
         [Test]
         public async Task ReturnBadRequestWhenGetMoviesReturnsNull()
         {
-            const string expectedError = "Não foi possível localizar os filmes.";
-
             _getMoviesService
                 .GetMovies()
                 .ReturnsNull();
@@ -37,9 +36,8 @@ namespace MoviesCup.Tests.MoviesCup.Api
             Assert.Multiple(() =>
             {
                 Assert.IsNotNull(response);
-                var actionResult = ((BadRequestObjectResult) response.Result);
-                Assert.AreEqual((int)HttpStatusCode.BadRequest, actionResult.StatusCode);
-                Assert.AreEqual(expectedError, actionResult.Value.ToString());
+                var actionResult = ((NoContentResult) response.Result);
+                Assert.AreEqual((int)HttpStatusCode.NoContent, actionResult.StatusCode);
             });
         }
 
@@ -48,7 +46,10 @@ namespace MoviesCup.Tests.MoviesCup.Api
         {
             _getMoviesService
                 .GetMovies()
-                .Returns(Enumerable.Empty<MovieModel>());
+                .Returns(new List<MovieModel>()
+                {
+                    new MovieModel("f1", "Filme 1", 2018)
+                });
 
             var response = await _moviesController.Get().ConfigureAwait(false);
 
